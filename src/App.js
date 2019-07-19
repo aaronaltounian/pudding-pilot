@@ -1,26 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './App.css';
+import MapContainer from './Components/MapContainer';
+import TopNav from './Components/TopNav';
+import Home from './Components/Home';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router className="App" style={{height: window.innerHeight}}>
+      <TopNav className='navbar' />
+      
+      <Route exact path="/" component={Home} />
+      <Route path="/map" component={MapContainer} />
+      <Route path="/hangar" component={Hangar} />
+    </Router>
   );
+}
+
+function Hangar() {
+  return <h1>Hangar</h1>
 }
 
 export default App;
