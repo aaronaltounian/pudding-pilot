@@ -31,7 +31,7 @@ export default class TopNav extends React.Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">Model Airplane Wind Sock</NavbarBrand>
+          <NavbarBrand href="/">RC Aircraft Wind Sock</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
