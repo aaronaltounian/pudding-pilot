@@ -6,8 +6,11 @@ The purpose of this app is to help model aircraft enthusiasts know when and wher
 
 I like to fly model airplanes which run off LiPo batteries. These batteries are stored discharged for safety. It takes time to charge batteries and if I realize too late that the conditions for flying are good, I often spend the time I should be flying, charging batteries instead.
 
+## Why is the repo called Pudding Pilot?
 
+It's a working title and will probably not be the name of the final product. My friends and I are constantly on the lookout for a good flying field where we can engage in the types of RC activities that the [Flite Test](https://www.youtube.com/user/flitetest) folks sometimes do, and for us one of those activities would be squirting pudding out of a model airplane. Thus we refer to a good flying field as a 'pudding field'.
 
+## 
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
