@@ -1,8 +1,8 @@
-##RC Aircraft Wind Sock App!
+## RC Aircraft Wind Sock App!
 
 The purpose of this app is to help model aircraft enthusiasts know when and where to fly. The core functionality of the app is to get weather data at your location and cross-reference that to the user's personalized hangar. Flight recommendations can then be made for specific planes at specific times and specific locations. The importance is for the app to check the forecast regularly on behalf of the end user, and notify the user if favorable flying conditions are approaching in order for the user to have enough time to charge their batteries or otherwise prepare their planes.
 
-##Why?
+## Why?
 
 I like to fly model airplanes which run off LiPo batteries. These batteries are stored discharged for safety. It takes time to charge batteries and if I realize too late that the conditions for flying are good, I often spend the time I should be flying, charging batteries instead.
 
