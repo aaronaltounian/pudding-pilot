@@ -5,7 +5,12 @@
   "dependencies": {
     "bootstrap": "^4.3.1",
     "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "google-map-react": "^1.1.4",
     "google-maps-react": "^2.0.2",
+    "node-fetch": "^2.6.0",
+    "path": "^0.12.7",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-google-maps": "^9.4.5",
@@ -33,5 +38,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:5000"
 }

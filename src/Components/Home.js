@@ -3,6 +3,7 @@
 import React from 'react';
 import { Jumbotron } from 'reactstrap';
 import {ReactComponent as LogoSVG} from '../airplane-logo.svg';
+import ZipcodeSearchBox from './ZipcodeSearchBox';
 
 const Home = (props) => {
   return (
@@ -13,6 +14,7 @@ const Home = (props) => {
         <p className="lead centerText">Solutions for the model aircraft enthusiast</p>
         <hr className="my-2" />
         <p className="centerText">Your aircraft. Your airfields. Know where, when, and what to fly. Never get caught unprepared on a perfect flying day again!</p>
+        <ZipcodeSearchBox></ZipcodeSearchBox>
       </Jumbotron>
     </div>
   );
