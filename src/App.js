@@ -15,7 +15,6 @@ function App() {
       
       <Route exact path="/" component={Home} />
       <Route path='/current-weather' component={CurrentWeather} />
-      <Route path='/forecast' component={Forecast} />
       <Route path="/map" component={MapContainer} />
       <Route path="/hangar" component={Hangar} />
       <Route path='/error' component={Error} />

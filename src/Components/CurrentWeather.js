@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
+import { Spinner } from 'reactstrap';
 import ZipcodeSearchBox from './ZipcodeSearchBox';
+import ForecastItem from './ForecastItem';
 
 export default class CurrentWeather extends Component {
     constructor(props) {
         super(props);
 
         this.state = ({
-            currentTemp: '',
-            humidity: '',
-            pressure: '',
-            windSpeed: '',
-            windGust: '',
-            windBearing: '',
-            currentCondition: '',
-            precipProbability: '',
+            isLoading: false,
+            currently: {},
+            hourly: [],
+            color: ''
         })
     }
 
@@ -24,54 +21,89 @@ export default class CurrentWeather extends Component {
             .then(data => {
                 console.log(data);
                 this.setState({
-                    icon: data.currently.icon,
-                    currentTemp: data.currently.temperature,
-                    humidity: data.currently.humidity,
-                    pressure: data.currently.pressure,
-                    windSpeed: data.currently.windSpeed,
-                    windGust: data.currently.windGust,
-                    windBearing: data.currently.windBearing,
-                    currentCondition: data.currently.summary,
-                    precipProbability: data.currently.precipProbability
+                    isLoading: false,
+                    currently: data.currently,
+                    hourly: data.hourly.data
                 })
                 console.log(this.state);
-git             })
+            })
     }
 
     // basic function to deliver flight recommendation solely based on wind speed:
-    isGoodFlying() {
+    isGoodFlying(windSpeed, windGust) {
         let recommendation = '';
 
-        if(this.state.windSpeed <= 5 && this.state.windGust <=5) recommendation = 'Flight conditions are as good as they get with low wind & gust speed.'
-        else if(this.state.windSpeed <= 10 && this.state.windGust <= 15) recommendation = 'Flight conditions are average with potential for minor gusts.'
-        else recommendation = 'It is likely too windy to fly!'
-
+        if(windSpeed <= 5 && windGust <=7) {
+            recommendation = 'Good wind conditions!';
+        }
+        else if(windSpeed <= 10 && windGust <= 15) {
+            recommendation = 'Average wind conditions.'
+        }
+        else {
+            recommendation = 'It is likely too windy to fly!'
+        }
         return recommendation;
     }
 
+    // generate color for warning badge (gotta be a better way to do this and isGoodFlying but this works for now):
+    generateColor(windSpeed, windGust) {
+        let color = '';
+        if(windSpeed <= 5 && windGust <=7) {
+            color = 'success'
+        }
+        else if(windSpeed <= 10 && windGust <= 15) {
+            color = 'warning'
+        }
+        else {
+            color = 'danger'
+        }
+        return color;
+    }
+
     // function to convert wind bearing degrees to a more useful direction:
-    convertDegreesToDirection() {
-        let val = Math.floor((this.state.windBearing / 22.5) + 0.5);
+    convertDegreesToDirection(deg) {
+        let val = Math.floor((deg / 22.5) + 0.5);
         let arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
         return arr[(val % 16)];
+    }
+
+    // function to map the hourly forecast state into card components to render on the page:
+    generateForecastCards() {
+        let forecastCards = [];
+        this.state.hourly.map( (forecast, index) => {
+            forecastCards.push(
+                <ForecastItem 
+                    key={index}
+                    time={forecast.time}
+                    color={this.generateColor(forecast.windSpeed, forecast.windGust)}
+                    recommendation={this.isGoodFlying(forecast.windSpeed, forecast.windGust)}
+                    summary={forecast.summary}
+                    windSpeed={forecast.windSpeed}
+                    windGust={forecast.windGust}
+                    windBearing={forecast.windBearing}
+                    windDirection={this.convertDegreesToDirection(forecast.windBearing)}
+                />
+            )
+        })
+        return forecastCards;
     }
 
     render() {
         return (
             <div>
-              <ZipcodeSearchBox path='/search-location' buttonText='See Current Weather'/>
-              <Card>
-                {/* <CardImg top width="100%" style={{height: '128px', width: '128px'}} src={require(`../assets/weather-icons/${this.state.icon}.svg`)} alt="Card image cap" /> */}
-                <CardBody>
-                  <CardTitle>{this.state.currentCondition}</CardTitle>
-                  <CardText>Wind Speed: {this.state.windSpeed} mph</CardText>
-                  <CardText>Wind Gust: {this.state.windGust} mph</CardText>
-                  <CardText>Winds out of the {this.convertDegreesToDirection()}</CardText>
-                  <CardText>Wind Bearing: {this.state.windBearing} degrees</CardText>
-                  <CardText>{this.isGoodFlying()}</CardText>
-                </CardBody>
-              </Card>
+                <ZipcodeSearchBox path='/search-location' buttonText='See Current Weather'/>
+                <ForecastItem 
+                    color={this.generateColor(this.state.currently.windSpeed, this.state.currently.windGust)}
+                    time={'Currently'}
+                    recommendation={this.isGoodFlying(this.state.currently.windSpeed, this.state.currently.windGust)}
+                    summary={this.state.currently.summary}
+                    windSpeed={this.state.currently.windSpeed}
+                    windGust={this.state.currently.windGust}
+                    windBearing={this.state.currently.windBearing}
+                    windDirection={this.convertDegreesToDirection(this.state.currently.windBearing)}
+                />
+                {this.generateForecastCards()}
             </div>
-          );
+        );
     }
 }

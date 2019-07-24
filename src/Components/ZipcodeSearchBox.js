@@ -5,8 +5,8 @@ let ZipcodeSearchBox = (props) => {
     return (
         <Form inline style={{margin:'auto'}} method="POST" action={props.path}>
             <FormGroup>
-                <Input type='text' placeholder='Enter zipcode here' name='zipcode'></Input>
-                <Button>{props.buttonText}</Button>
+                <Input size='lg' type='text' placeholder='Enter zipcode here' name='zipcode'></Input>
+                <Button size='lg'>Get Weather</Button>
             </FormGroup>
         </Form>
     )

@@ -22,7 +22,6 @@ module.exports = (app) => {
         fetch(googleGeocodeUrl)
         .then(res => res.json())
         .then(data => {
-            console.log(data);
             lat = data.results[0].geometry.location.lat;
             lng = data.results[0].geometry.location.lng;
             console.log(lat, lng);         

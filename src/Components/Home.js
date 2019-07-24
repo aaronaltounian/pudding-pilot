@@ -14,7 +14,7 @@ const Home = (props) => {
         <p className="lead centerText">Solutions for the model aircraft enthusiast</p>
         <hr className="my-2" />
         <p className="centerText">Your aircraft. Your airfields. Know where, when, and what to fly. Never get caught unprepared on a perfect flying day again!</p>
-        <ZipcodeSearchBox path='/search-location' buttonText='See Current Weather'></ZipcodeSearchBox>
+        <ZipcodeSearchBox path='/search-location'></ZipcodeSearchBox>
       </Jumbotron>
     </div>
   );
