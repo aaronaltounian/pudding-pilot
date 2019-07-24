@@ -6,6 +6,7 @@ import TopNav from './Components/TopNav';
 import Home from './Components/Home';
 import Forecast from './Components/Forecast';
 import CurrentWeather from './Components/CurrentWeather';
+import Error from './Components/Error';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route path='/forecast' component={Forecast} />
       <Route path="/map" component={MapContainer} />
       <Route path="/hangar" component={Hangar} />
+      <Route path='/error' component={Error} />
     </Router>
   );
 }

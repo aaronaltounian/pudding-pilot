@@ -24,6 +24,7 @@ export default class CurrentWeather extends Component {
             .then(data => {
                 console.log(data);
                 this.setState({
+                    icon: data.currently.icon,
                     currentTemp: data.currently.temperature,
                     humidity: data.currently.humidity,
                     pressure: data.currently.pressure,
@@ -34,7 +35,7 @@ export default class CurrentWeather extends Component {
                     precipProbability: data.currently.precipProbability
                 })
                 console.log(this.state);
-            })
+git             })
     }
 
     // basic function to deliver flight recommendation solely based on wind speed:
@@ -58,9 +59,9 @@ export default class CurrentWeather extends Component {
     render() {
         return (
             <div>
-              <ZipcodeSearchBox />
-              <Card style={{width: '50vw'}}>
-                <CardImg top width="100%" style={{height: '128px', width: '128px'}} src="https://cdn3.iconfinder.com/data/icons/weather-92/64/_Small_Clouds-512.png" alt="Card image cap" />
+              <ZipcodeSearchBox path='/search-location' buttonText='See Current Weather'/>
+              <Card>
+                {/* <CardImg top width="100%" style={{height: '128px', width: '128px'}} src={require(`../assets/weather-icons/${this.state.icon}.svg`)} alt="Card image cap" /> */}
                 <CardBody>
                   <CardTitle>{this.state.currentCondition}</CardTitle>
                   <CardText>Wind Speed: {this.state.windSpeed} mph</CardText>

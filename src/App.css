@@ -1,8 +1,9 @@
 .navbar {
-  position: absolute;
+
 }
 
 .jumbotron {
+  height: 90vh;
   display: flex;
   flex-direction: column;
   align-content: center;

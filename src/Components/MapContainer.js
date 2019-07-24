@@ -4,14 +4,6 @@ import { Map, Marker, InfoWindow, GoogleApiWrapper } from 'google-maps-react';
 import React, {Component} from 'react';
 import state from '../state';
 
-// get user location from built in browser navigator.geolocation to tell the map where to center:
-if('geolocation' in navigator) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-        state.centerCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
-    });
-} else {
-    
-}
 
 // object for JSX inline styling to pass in the Maps component:
 const mapStyles = {
@@ -20,7 +12,9 @@ const mapStyles = {
 
 // Function to generate & return an array of Marker components from state in order to display them on the map: 
 function generateMarkers() {
-    let markers = [];
+    let markers = [
+        <Marker title='Current Position' name='Current Position' position={state.centerCoords} />
+    ];
     state.markers.map((marker, index) => {
         markers.push(<Marker title={marker.title} name={marker.name} position={marker.position} key={index} />)
     })

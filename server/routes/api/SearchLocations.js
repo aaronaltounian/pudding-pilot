@@ -38,14 +38,5 @@ module.exports = (app) => {
                 res.redirect('/error');
             });   
         })
-        // fetch(darkSkyUrl)
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         console.log(data)
-        //         res.send(data);
-        //     })
-        //     .catch(err => {
-        //         res.redirect('/error');
-        //     }); 
     })
 }
