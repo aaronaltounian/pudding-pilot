@@ -10,7 +10,7 @@ module.exports = (app) => {
         if(!zipcode || zipcode.length < 5 || zipcode.length > 5) {
             res.redirect('/error');
         } else {
-            res.redirect('/current-weather');
+            // res.redirect('/current-weather');
         }
     });
 
@@ -24,7 +24,6 @@ module.exports = (app) => {
         .then(data => {
             lat = data.results[0].geometry.location.lat;
             lng = data.results[0].geometry.location.lng;
-            console.log(lat, lng);         
         })
         .then( data => {
             fetch(`https://api.darksky.net/forecast/${process.env.DARK_SKY_API_KEY}/${lat},${lng}`)

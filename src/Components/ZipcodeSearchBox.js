@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Input, Form, FormGroup } from 'reactstrap';
 
-let ZipcodeSearchBox = (props) => {
+const ZipcodeSearchBox = (props) => {
     return (
         <Form inline style={{margin:'auto'}} method="POST" action={props.path}>
             <FormGroup>
