@@ -36,13 +36,13 @@ export default class TopNav extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href='/current-weather/'>Forecast</NavLink>
+                <NavLink onClick={() => this.props.changeDisplayed('weather')} href='#'>Weather</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/map/">View Map</NavLink>
+                <NavLink href="#">View Map</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/hangar/">View Hangar</NavLink>
+                <NavLink href="#">View Hangar</NavLink>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
