@@ -7,6 +7,7 @@ import Home from './Components/Home';
 import Forecast from './Components/Forecast';
 import CurrentWeather from './Components/CurrentWeather';
 import Error from './Components/Error';
+import ZipcodeSearchBox from './Components/ZipcodeSearchBox';
 
 class App extends Component {
   state = {
@@ -25,7 +26,7 @@ class App extends Component {
       toDisplay = <Home changeDisplayed={this.changeDisplayed} />
     }
     else if(this.state.displayed === 'weather') {
-      toDisplay = <CurrentWeather />
+      toDisplay = <CurrentWeather changeDisplayed={this.changeDisplayed} />
     }
     else if(this.state.displayed === 'map') {
       toDisplay = <MapContainer />

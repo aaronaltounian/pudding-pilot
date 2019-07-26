@@ -91,7 +91,7 @@ export default class CurrentWeather extends Component {
     render() {
         return (
             <div>
-                <ZipcodeSearchBox path='/search-location' buttonText='See Current Weather'/>
+                <ZipcodeSearchBox changeDisplayed={this.props.changeDisplayed} path='/search-location' buttonText='See Current Weather'/>
                 <ForecastItem 
                     color={this.generateColor(this.state.currently.windSpeed, this.state.currently.windGust)}
                     time={'Currently'}
