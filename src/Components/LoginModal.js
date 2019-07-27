@@ -25,7 +25,7 @@ class LoginModal extends React.Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle} >
           <ModalHeader toggle={this.toggle}>Login or Register</ModalHeader>
           <ModalBody>
-            <LoginForm />
+            <LoginForm/>
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
