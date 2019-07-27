@@ -36,7 +36,7 @@ export default class TopNav extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href='/current-weather/'>Forecast</NavLink>
+                <NavLink href='/current-weather/'>Weather Forecast</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="/map/">View Map</NavLink>

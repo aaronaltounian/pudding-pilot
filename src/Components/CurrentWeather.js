@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Spinner } from 'reactstrap';
 import ZipcodeSearchBox from './ZipcodeSearchBox';
 import ForecastItem from './ForecastItem';
+import * as moment from 'moment'
 
 export default class CurrentWeather extends Component {
     constructor(props) {
@@ -16,6 +17,8 @@ export default class CurrentWeather extends Component {
     }
 
     componentDidMount() {
+        this.setState({isLoading: true});
+
         fetch('/search-location-weather')
             .then(res => res.json())
             .then(data => {
@@ -25,7 +28,7 @@ export default class CurrentWeather extends Component {
                     currently: data.currently,
                     hourly: data.hourly.data
                 })
-                console.log(this.state);
+                console.log(this.state.hourly);
             })
     }
 
@@ -71,10 +74,11 @@ export default class CurrentWeather extends Component {
     generateForecastCards() {
         let forecastCards = [];
         this.state.hourly.map( (forecast, index) => {
+            let time = moment.unix(forecast.time).format("ddd, hA");
             forecastCards.push(
                 <ForecastItem 
                     key={index}
-                    time={forecast.time}
+                    time={time}
                     color={this.generateColor(forecast.windSpeed, forecast.windGust)}
                     recommendation={this.isGoodFlying(forecast.windSpeed, forecast.windGust)}
                     summary={forecast.summary}
@@ -89,21 +93,34 @@ export default class CurrentWeather extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <ZipcodeSearchBox path='/search-location' buttonText='See Current Weather'/>
-                <ForecastItem 
-                    color={this.generateColor(this.state.currently.windSpeed, this.state.currently.windGust)}
-                    time={'Currently'}
-                    recommendation={this.isGoodFlying(this.state.currently.windSpeed, this.state.currently.windGust)}
-                    summary={this.state.currently.summary}
-                    windSpeed={this.state.currently.windSpeed}
-                    windGust={this.state.currently.windGust}
-                    windBearing={this.state.currently.windBearing}
-                    windDirection={this.convertDegreesToDirection(this.state.currently.windBearing)}
-                />
-                {this.generateForecastCards()}
-            </div>
-        );
+        if(this.state.isLoading) {
+            return (
+                <div>
+                    <Spinner />
+                    <Spinner />
+                    <Spinner />
+                    <Spinner />
+                    <Spinner />
+                </div>
+            )
+        }
+        else {
+            return (
+                <div>
+                    <ZipcodeSearchBox path='/search-location' buttonText='See Current Weather'/>
+                    {/* <ForecastItem 
+                        color={this.generateColor(this.state.currently.windSpeed, this.state.currently.windGust)}
+                        time={'Currently'}
+                        recommendation={this.isGoodFlying(this.state.currently.windSpeed, this.state.currently.windGust)}
+                        summary={this.state.currently.summary}
+                        windSpeed={this.state.currently.windSpeed}
+                        windGust={this.state.currently.windGust}
+                        windBearing={this.state.currently.windBearing}
+                        windDirection={this.convertDegreesToDirection(this.state.currently.windBearing)}
+                    /> */}
+                    {this.generateForecastCards()}
+                </div>
+            );
+        }
     }
 }
