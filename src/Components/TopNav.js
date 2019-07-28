@@ -18,15 +18,48 @@ export default class TopNav extends React.Component {
     super(props);
 
     this.toggle = this.toggle.bind(this);
+    this.toggleCaret = this.toggleCaret.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      caret: false
     };
   }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
+
+  toggleCaret() {
+    this.setState({
+      caret: true
+    })
+  }
+
+  displayUserDropdown() {
+    if(this.state.user === '') {
+      return;
+    }
+    else {
+      return (
+        <UncontrolledDropdown nav inNavbar>
+          <DropdownToggle nav caret={this.state.caret}>
+            {this.props.user}
+          </DropdownToggle>
+          <DropdownMenu right>
+            <DropdownItem>
+              <NavLink href="/hangar/">Hangar</NavLink>
+            </DropdownItem>
+            <DropdownItem>
+              <NavLink href='/locations/'>Locations</NavLink>
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      )
+    }
+  }
+
   render() {
     return (
       <div>
@@ -41,28 +74,22 @@ export default class TopNav extends React.Component {
               <NavItem>
                 <NavLink href="/map/">View Map</NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink href="/hangar/">View Hangar</NavLink>
-              </NavItem>
-              <UncontrolledDropdown nav inNavbar>
+              {this.displayUserDropdown()}
+              {/* <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
-                  Options
+                  {this.props.user}
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>
-                    Option 1
+                    <NavLink href="/hangar/">Hangar</NavLink>
                   </DropdownItem>
                   <DropdownItem>
-                    Option 2
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>
-                    Reset
+                    <NavLink href='/locations/'>Locations</NavLink>
                   </DropdownItem>
                 </DropdownMenu>
-              </UncontrolledDropdown>
+              </UncontrolledDropdown> */}
             </Nav>
-            <LoginModal />
+            <LoginModal setUser={this.props.setUser} toggleCaret={this.toggleCaret} />
           </Collapse>
         </Navbar>
       </div>

@@ -9,6 +9,17 @@ import CurrentWeather from './Components/CurrentWeather';
 import Error from './Components/Error';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: ''
+    }
+    this.setUser = this.setUser.bind(this);
+  }
+
+  setUser = (user) => {
+    this.setState({user: user});
+  }
 
   render() {
     // let toDisplay;
@@ -24,7 +35,7 @@ class App extends Component {
     // )
     return (
       <Router className="App" style={{height: window.innerHeight}}>
-        <TopNav className='navbar' />
+        <TopNav className='navbar' setUser={this.setUser} user={this.state.user} />
         
         <Route exact path="/" component={Home} />
         <Route path='/current-weather' component={CurrentWeather} />

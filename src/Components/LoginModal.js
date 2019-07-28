@@ -28,9 +28,14 @@ class LoginModal extends React.Component {
     })
       .then(res => res.json())
       .then(data => {
+        this.props.setUser(data.user);
         localStorage.setItem('token', data.token);
         console.log(localStorage.getItem('token'));
-        this.setState({message: data.message}, () => {alert(this.state.message); this.toggle()});
+        this.setState({message: data.message}, () => {
+          alert(this.state.message); 
+          this.props.toggleCaret();
+          this.toggle();
+        });
       });
   }
 
@@ -51,7 +56,10 @@ class LoginModal extends React.Component {
         console.log(data);
         this.setState({
           message: data.message
-        }, () => {alert(this.state.message); this.toggle()})
+        }, () => {
+          alert(this.state.message);
+          this.toggle()
+        })
       });    
   }
 
@@ -74,7 +82,7 @@ class LoginModal extends React.Component {
   displayedForm() {
     let toDisplay;
     if(this.state.displayed === 'login') {
-      toDisplay = <LoginForm handleSubmit={this.handleLogin} title='Login' />
+      toDisplay = <LoginForm handleSubmit={this.handleLogin}title='Login' />
     }
     else if(this.state.displayed === 'register') {
       toDisplay = <LoginForm handleSubmit={this.handleRegister} title='Register' />
