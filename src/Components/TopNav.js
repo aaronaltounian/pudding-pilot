@@ -62,7 +62,7 @@ export default class TopNav extends React.Component {
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>
-            <LoginModal buttonLabel='Login/Register'/>
+            <LoginModal />
           </Collapse>
         </Navbar>
       </div>
