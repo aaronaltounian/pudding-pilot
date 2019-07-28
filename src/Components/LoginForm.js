@@ -31,7 +31,6 @@ export default class LoginForm extends React.Component {
   render() {
     return (
       <Form onSubmit={this.props.handleSubmit} >
-        <h3>{this.props.title}</h3>
         <FormGroup>
           <Label for="user">Username</Label>
           <Input type="text" name="username" onChange={this.handleChange} placeholder="randyrhoads" />

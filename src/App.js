@@ -12,30 +12,40 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: localStorage.getItem('user')
+      user: localStorage.getItem('user'),
+      isLoggedIn: false
     }
     this.setUser = this.setUser.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
-  setUser = (user) => {
-    this.setState({user: user});
+  componentDidMount() {
+    localStorage.setItem('user', '');
+    localStorage.setItem('token', '');
+  }
+
+  setUser = (user, boolean) => {
+    this.setState({
+      user: user,
+      isLoggedIn: boolean
+    });
+  }
+
+  logout() {
+    this.setState({
+      isLoggedIn: false
+    })
   }
 
   render() {
-    // let toDisplay;
-    // if(this.state.displayed === 'home') toDisplay = <Home />
-    // else if(this.state.displayed === 'forecast') toDisplay = <Forecast />
-    // else if(this.state.displayed === 'map') toDisplay = <MapContainer />
-    // else if(this.state.displayed === 'hangar') toDisplay = <Hangar />
-    // return(
-    //   <div>
-    //     <TopNav className='navbar' viewHome={this.viewHome} viewForecast={this.viewForecast} viewMap={this.viewMap} viewHangar={this.viewHangar}/>
-    //     {toDisplay}
-    //   </div>
-    // )
     return (
       <Router className="App" style={{height: window.innerHeight}}>
-        <TopNav className='navbar' setUser={this.setUser} user={this.state.user} />
+        <TopNav className='navbar' 
+          setUser={this.setUser} 
+          user={this.state.user} 
+          isLoggedIn={this.state.isLoggedIn} 
+          logOut={this.logOut} 
+        />
         
         <Route exact path="/" component={Home} />
         <Route path='/current-weather' component={CurrentWeather} />

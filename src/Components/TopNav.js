@@ -18,10 +18,8 @@ export default class TopNav extends React.Component {
     super(props);
 
     this.toggle = this.toggle.bind(this);
-    this.toggleCaret = this.toggleCaret.bind(this);
     this.state = {
       isOpen: false,
-      caret: false
     };
   }
 
@@ -31,14 +29,14 @@ export default class TopNav extends React.Component {
     });
   }
 
-  toggleCaret() {
-    this.setState({
-      caret: true
-    })
+  logout() {
+    localStorage.clear();
+    localStorage.setItem('token', '');
+    localStorage.setItem('user', '');
   }
 
   displayUserDropdown() {
-    if(this.state.user === '') {
+    if(this.props.user === '') {
       return;
     }
     else {
@@ -46,7 +44,7 @@ export default class TopNav extends React.Component {
       return (
         <UncontrolledDropdown nav inNavbar>
           <DropdownToggle nav>
-            {this.props.user}
+            {this.props.user} &#9660;
           </DropdownToggle>
           <DropdownMenu right>
             <DropdownItem>
@@ -54,6 +52,10 @@ export default class TopNav extends React.Component {
             </DropdownItem>
             <DropdownItem>
               <NavLink href='/locations/'>Locations</NavLink>
+            </DropdownItem>
+            <DropdownItem divider></DropdownItem>
+            <DropdownItem>
+              <NavLink href='#' onClick={this.logout()}>Log Out</NavLink>
             </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
