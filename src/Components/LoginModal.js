@@ -29,8 +29,8 @@ class LoginModal extends React.Component {
       .then(res => res.json())
       .then(data => {
         this.props.setUser(data.user);
+        localStorage.setItem('user', data.user)
         localStorage.setItem('token', data.token);
-        console.log(localStorage.getItem('token'));
         this.setState({message: data.message}, () => {
           alert(this.state.message); 
           this.props.toggleCaret();

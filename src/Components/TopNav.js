@@ -42,9 +42,10 @@ export default class TopNav extends React.Component {
       return;
     }
     else {
+      localStorage.setItem('caret', true)
       return (
         <UncontrolledDropdown nav inNavbar>
-          <DropdownToggle nav caret={this.state.caret}>
+          <DropdownToggle nav>
             {this.props.user}
           </DropdownToggle>
           <DropdownMenu right>
@@ -75,19 +76,6 @@ export default class TopNav extends React.Component {
                 <NavLink href="/map/">View Map</NavLink>
               </NavItem>
               {this.displayUserDropdown()}
-              {/* <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  {this.props.user}
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem>
-                    <NavLink href="/hangar/">Hangar</NavLink>
-                  </DropdownItem>
-                  <DropdownItem>
-                    <NavLink href='/locations/'>Locations</NavLink>
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown> */}
             </Nav>
             <LoginModal setUser={this.props.setUser} toggleCaret={this.toggleCaret} />
           </Collapse>
