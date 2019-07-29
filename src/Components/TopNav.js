@@ -10,7 +10,9 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem } from 'reactstrap';
+  DropdownItem,
+  } from 'reactstrap';
+import {Link} from 'react-router-dom'
 import LoginModal from './LoginModal';
 
 export default class TopNav extends React.Component {
@@ -48,14 +50,14 @@ export default class TopNav extends React.Component {
           </DropdownToggle>
           <DropdownMenu right>
             <DropdownItem>
-              <NavLink href="/hangar/">Hangar</NavLink>
+              <NavLink tag={Link} to="/hangar/">Hangar</NavLink>
             </DropdownItem>
             <DropdownItem>
-              <NavLink href='/locations/'>Locations</NavLink>
+              <NavLink tag={Link} to='/locations/'>Locations</NavLink>
             </DropdownItem>
             <DropdownItem divider></DropdownItem>
             <DropdownItem>
-              <NavLink href='#' onClick={this.logout()}>Log Out</NavLink>
+              <NavLink to='#' onClick={this.logout()}>Log Out</NavLink>
             </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
@@ -72,10 +74,10 @@ export default class TopNav extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href='/current-weather/'>Weather Forecast</NavLink>
+                <NavLink tag={Link} to='/current-weather/'>Weather Forecast</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/map/">View Map</NavLink>
+                <NavLink tag={Link} to="/map/">View Map</NavLink>
               </NavItem>
               {this.displayUserDropdown()}
             </Nav>
