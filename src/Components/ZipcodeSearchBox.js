@@ -23,7 +23,7 @@ class ZipcodeSearchBox extends Component {
         });
         if(this.state.fireRedirect) {
             this.setState({fireRedirect: false})
-            window.location.reload(true)
+            window.location.reload()
         }
         else this.setState({fireRedirect: true});
     }
