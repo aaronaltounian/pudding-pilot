@@ -1,16 +1,44 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { Button, Input, Form, FormGroup } from 'reactstrap';
-import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 
-const ZipcodeSearchBox = (props) => {
-    return (
-        <Form inline style={{margin:'auto'}} method="POST" action={props.path}>
-            <FormGroup>
-                <Input size='lg' type='text' placeholder='Enter zipcode here' name='zipcode'></Input>
-                <Button tag={Link} to='/current-weather' size='lg'>Get Weather</Button>
-            </FormGroup>
-        </Form>
-    )
+class ZipcodeSearchBox extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            fireRedirect: false
+        }
+        this.handleSubmit = this.handleSubmit.bind(this)
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        localStorage.setItem('zipcode', e.target.zipcode.value);
+        let zipcode = JSON.stringify({'zipcode': e.target.zipcode.value});
+        console.log(zipcode);
+        fetch('/search-location', {
+            headers: {'Content-Type': 'application/json'},
+            method: "POST",
+            body: zipcode
+        });
+        if(this.state.fireRedirect) {
+            this.setState({fireRedirect: false})
+            window.location.reload(true)
+        }
+        else this.setState({fireRedirect: true});
+    }
+
+    render() {
+        return (
+            <Form inline style={{margin:'auto'}} onSubmit={this.handleSubmit}>
+                <FormGroup>
+                    <Input size='lg' type='text' placeholder='Enter zipcode here' defaultValue={this.props.value} name='zipcode'></Input>
+                    <Button size='lg'>Get Weather</Button>
+                </FormGroup>
+                {this.state.fireRedirect && (<Redirect to='/current-weather' />)}
+            </Form>
+        )
+    }
 }
 
 export default ZipcodeSearchBox;

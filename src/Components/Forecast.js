@@ -31,7 +31,7 @@ class Forecast extends Component {
     render() {
         return (
             <div>
-                <ZipcodeSearchBox path='/search-location' buttonText='Get Forecast'/>
+                <ZipcodeSearchBox/>
                 <ListGroup>
                     {this.generateForecastItems()}
                 </ListGroup>
