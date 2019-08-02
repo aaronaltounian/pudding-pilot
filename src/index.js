@@ -11,6 +11,8 @@ require('dotenv').config();
 if('geolocation' in navigator) {
     navigator.geolocation.getCurrentPosition(function(position) {
         state.centerCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
+        localStorage.setItem('lat', position.coords.latitude);
+        localStorage.setItem('lng', position.coords.longitude);
         console.log(state.centerCoords);
     });
 } else {

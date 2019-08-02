@@ -19,8 +19,9 @@ export default class CurrentWeather extends Component {
     componentDidMount() {
         this.props.history.push('/current-weather')
         this.setState({isLoading: true});
-
-        fetch('/search-location-weather')
+        let lat = localStorage.getItem('lat');
+        let lng = localStorage.getItem('lng');
+        fetch(`/search-location-weather?lat=${lat}&lng=${lng}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);

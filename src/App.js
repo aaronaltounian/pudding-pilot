@@ -21,8 +21,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    localStorage.setItem('user', '');
-    localStorage.setItem('token', '');
+    // localStorage.setItem('user', '');
+    // localStorage.setItem('token', '');
   }
 
   setUser = (user, boolean) => {

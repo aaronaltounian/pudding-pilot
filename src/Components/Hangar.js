@@ -48,19 +48,24 @@ class Hangar extends Component {
 
     listPlanes = () => {
         let planes = [];
-        this.state.planes.map( (plane, index) => {
-            planes.push(
-                <ListGroupItem key={index}>
-                    <ListGroupItemHeading>{plane.make} {plane.model}</ListGroupItemHeading>
-                    <ListGroupItemText>
-                        <Badge color="success">Min Speed: {plane.minWind}mph</Badge> 
-                        <Badge color="danger">Max Speed: {plane.maxWind}mph</Badge>
-                        <Badge color="warning">Max Gust: {plane.maxGust}mph</Badge>
-                    </ListGroupItemText>
-                </ListGroupItem>
-            )
-        })
-        return planes;
+        if(this.state.planes.length === 0) {
+            return <Alert color="warning">No planes found! Add a plane to see weather for your specific flying conditions!</Alert>
+        }
+        else {
+            this.state.planes.map( (plane, index) => {
+                planes.push(
+                    <ListGroupItem key={index}>
+                        <ListGroupItemHeading>{plane.make} {plane.model}</ListGroupItemHeading>
+                        <ListGroupItemText>
+                            <Badge color="success">Min Speed: {plane.minWind}mph</Badge> 
+                            <Badge color="danger">Max Speed: {plane.maxWind}mph</Badge>
+                            <Badge color="danger">Max Gust: {plane.maxGust}mph</Badge>
+                        </ListGroupItemText>
+                    </ListGroupItem>
+                )
+            })
+            return planes;
+        }
     }
 
     handleSubmit(e) {
@@ -77,12 +82,16 @@ class Hangar extends Component {
             'maxWind': maxWind,
             'maxGust': maxGust
         };
-
+        let token = localStorage.getItem('token')
         fetch('/add-plane', {
-            headers: {"Content-Type": "application/json"},
             method: 'POST',
+            headers: {"Content-Type": "application/json",
+                      "Authorization": `Bearer ${token}`},
             body: JSON.stringify(newPlane)
         })
+        this.setState((prevState) => ({
+            planes: [...prevState.planes, newPlane]
+        }));
     }
 
     render() {

@@ -33,8 +33,8 @@ export default class TopNav extends React.Component {
 
   logout() {
     localStorage.clear();
-    localStorage.setItem('token', '');
-    localStorage.setItem('user', '');
+    // localStorage.setItem('token', '');
+    // localStorage.setItem('user', '');
   }
 
   displayUserDropdown() {
