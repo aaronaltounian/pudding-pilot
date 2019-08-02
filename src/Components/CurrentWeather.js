@@ -17,6 +17,7 @@ export default class CurrentWeather extends Component {
     }
 
     componentDidMount() {
+        this.props.history.push('/current-weather')
         this.setState({isLoading: true});
 
         fetch('/search-location-weather')

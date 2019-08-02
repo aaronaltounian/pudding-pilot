@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import history from './history';
 import './App.css';
 import MapContainer from './Components/MapContainer';
 import TopNav from './Components/TopNav';
 import Home from './Components/Home';
-import Forecast from './Components/Forecast';
 import CurrentWeather from './Components/CurrentWeather';
 import Error from './Components/Error';
+import Hangar from './Components/Hangar';
 
 class App extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class App extends Component {
 
   render() {
     return (
-      <Router className="App" style={{height: window.innerHeight}}>
+      <Router history={history} className="App" style={{height: window.innerHeight}}>
         <TopNav className='navbar' 
           setUser={this.setUser} 
           user={this.state.user} 
@@ -55,10 +56,6 @@ class App extends Component {
       </Router>
     );
   }
-}
-
-function Hangar() {
-  return <h1>Hangar</h1>
 }
 
 export default App;

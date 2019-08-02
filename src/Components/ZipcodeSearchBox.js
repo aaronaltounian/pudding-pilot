@@ -21,6 +21,8 @@ class ZipcodeSearchBox extends Component {
             method: "POST",
             body: zipcode
         });
+
+        // fetch(`get-weather/${e.target.zipcode.value}`)
         if(this.state.fireRedirect) {
             this.setState({fireRedirect: false})
         }
