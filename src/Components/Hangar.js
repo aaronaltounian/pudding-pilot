@@ -11,12 +11,16 @@ import {
     ListGroupItem, 
     ListGroupItemHeading, 
     ListGroupItemText,
-    Container } from 'reactstrap';
+    Container,
+    Spinner } from 'reactstrap';
+
+const ls = require('local-storage');
 
 class Hangar extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoading: false,
             planes: [],
             displayed: ''
         }
@@ -24,9 +28,11 @@ class Hangar extends Component {
     }
 
     componentDidMount() {
-        let token = localStorage.getItem('token');
-        if(token === '') {
+        this.setState({isLoading: true});
+        let token = ls('token');
+        if(!token) {
             this.setState({
+                isLoading: false,
                 displayed: 'alert'
             })
             // toDisplay = <Alert color="danger">You must be logged in to do that!</Alert>
@@ -39,9 +45,9 @@ class Hangar extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({
+                    isLoading: false,
                     planes: data
                 });
-                console.log(this.state.planes);
             });
         }
     }
@@ -82,7 +88,7 @@ class Hangar extends Component {
             'maxWind': maxWind,
             'maxGust': maxGust
         };
-        let token = localStorage.getItem('token')
+        let token = ls('token')
         fetch('/add-plane', {
             method: 'POST',
             headers: {"Content-Type": "application/json",
@@ -95,40 +101,44 @@ class Hangar extends Component {
     }
 
     render() {
-        if(this.state.displayed === 'alert') {
-            return <Alert color="danger">Error retrieving planes! Try logging back in.</Alert>
-        }
-        else {
-            return (
-                <Container>
-                    <Form inline onSubmit={this.handleSubmit}>
-                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                            <Label for="make" className="mr-sm-2">Make</Label>
-                            <Input type="text" name="make" id="make" placeholder="Durafly" />
-                        </FormGroup>
-                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                            <Label for="model" className="mr-sm-2">Model</Label>
-                            <Input type="text" name="model" id="model" placeholder="Tundra" />
-                        </FormGroup>
-                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                            <Label for="minWind" className="mr-sm-2">Min Wind (mph)</Label>
-                            <Input type="number" name="minWind" id="minWind" placeholder="0" />
-                        </FormGroup>
-                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                            <Label for="maxWind" className="mr-sm-2">Max Wind (mph)</Label>
-                            <Input type="number" name="maxWind" id="maxWind" placeholder="10" />
-                        </FormGroup>
-                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                            <Label for="maxGust" className="mr-sm-2">Max Gust</Label>
-                            <Input type="number" name="maxGust" id="maxGust" placeholder="15!" />
-                        </FormGroup>
-                        <Button>Submit</Button>
-                    </Form>
-                    <ListGroup>
-                        {this.listPlanes()}
-                    </ListGroup>
-                </Container>
-            )
+        if(this.state.isLoading) {
+            return <Spinner />
+        } else {
+            if(this.state.displayed === 'alert') {
+                return <Alert color="danger">Error retrieving planes! Try logging back in.</Alert>
+            }
+            else {
+                return (
+                    <Container>
+                        <Form inline onSubmit={this.handleSubmit}>
+                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                                <Label for="make" className="mr-sm-2">Make</Label>
+                                <Input type="text" name="make" id="make" placeholder="Durafly" />
+                            </FormGroup>
+                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                                <Label for="model" className="mr-sm-2">Model</Label>
+                                <Input type="text" name="model" id="model" placeholder="Tundra" />
+                            </FormGroup>
+                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                                <Label for="minWind" className="mr-sm-2">Min Wind (mph)</Label>
+                                <Input type="number" name="minWind" id="minWind" placeholder="0" />
+                            </FormGroup>
+                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                                <Label for="maxWind" className="mr-sm-2">Max Wind (mph)</Label>
+                                <Input type="number" name="maxWind" id="maxWind" placeholder="10" />
+                            </FormGroup>
+                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                                <Label for="maxGust" className="mr-sm-2">Max Gust</Label>
+                                <Input type="number" name="maxGust" id="maxGust" placeholder="15!" />
+                            </FormGroup>
+                            <Button>Submit</Button>
+                        </Form>
+                        <ListGroup>
+                            {this.listPlanes()}
+                        </ListGroup>
+                    </Container>
+                )
+            }
         }
     }
 }

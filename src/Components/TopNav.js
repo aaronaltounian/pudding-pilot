@@ -15,6 +15,8 @@ import {
 import {Link} from 'react-router-dom'
 import LoginModal from './LoginModal';
 
+const ls = require('local-storage');
+
 export default class TopNav extends React.Component {
   constructor(props) {
     super(props);
@@ -32,37 +34,53 @@ export default class TopNav extends React.Component {
   }
 
   logout() {
-    localStorage.clear();
-    // localStorage.setItem('token', '');
-    // localStorage.setItem('user', '');
+    ls.clear()
   }
 
   displayUserDropdown() {
-    if(this.props.user === '') {
-      return;
-    }
-    else {
-      localStorage.setItem('caret', true)
-      return (
-        <UncontrolledDropdown nav inNavbar>
-          <DropdownToggle nav>
-            {this.props.user} &#9660;
-          </DropdownToggle>
-          <DropdownMenu right>
-            <DropdownItem>
-              <NavLink tag={Link} to="/hangar/">Hangar</NavLink>
-            </DropdownItem>
-            <DropdownItem>
-              <NavLink tag={Link} to='/locations/'>Locations</NavLink>
-            </DropdownItem>
-            <DropdownItem divider></DropdownItem>
-            <DropdownItem>
-              <NavLink to='#' onClick={this.logout()}>Log Out</NavLink>
-            </DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown>
-      )
-    }
+    // if(!this.props.isLoggedIn) {
+    //   return;
+    // }
+    // else {
+    //   return (
+    //     <UncontrolledDropdown nav inNavbar>
+    //       <DropdownToggle nav>
+    //         {this.props.user} &#9660;
+    //       </DropdownToggle>
+    //       <DropdownMenu right>
+    //         <DropdownItem>
+    //           <NavLink tag={Link} to="/hangar/">Hangar</NavLink>
+    //         </DropdownItem>
+    //         <DropdownItem>
+    //           <NavLink tag={Link} to='/locations/'>Locations</NavLink>
+    //         </DropdownItem>
+    //         <DropdownItem divider></DropdownItem>
+    //         <DropdownItem>
+    //           <NavLink to='#' onClick={this.logout()}>Log Out</NavLink>
+    //         </DropdownItem>
+    //       </DropdownMenu>
+    //     </UncontrolledDropdown>
+    //   )
+    // }
+    return (
+      <UncontrolledDropdown nav inNavbar>
+        <DropdownToggle nav>
+          {this.props.user} &#9660;
+        </DropdownToggle>
+        <DropdownMenu right>
+          <DropdownItem>
+            <NavLink tag={Link} to="/hangar/">Hangar</NavLink>
+          </DropdownItem>
+          <DropdownItem>
+            <NavLink tag={Link} to='/locations/'>Locations</NavLink>
+          </DropdownItem>
+          <DropdownItem divider></DropdownItem>
+          <DropdownItem>
+            <NavLink onClick={this.logout()}>Log Out</NavLink>
+          </DropdownItem>
+        </DropdownMenu>
+      </UncontrolledDropdown>
+    )
   }
 
   render() {
@@ -81,7 +99,7 @@ export default class TopNav extends React.Component {
               </NavItem>
               {this.displayUserDropdown()}
             </Nav>
-            <LoginModal setUser={this.props.setUser} toggleCaret={this.toggleCaret} />
+            <LoginModal setUser={this.props.setUser} />
           </Collapse>
         </Navbar>
       </div>

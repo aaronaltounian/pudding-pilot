@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import {Alert} from 'reactstrap';
 import history from './history';
 import './App.css';
 import MapContainer from './Components/MapContainer';
@@ -8,12 +9,13 @@ import Home from './Components/Home';
 import CurrentWeather from './Components/CurrentWeather';
 import Error from './Components/Error';
 import Hangar from './Components/Hangar';
+const ls = require('local-storage');
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: localStorage.getItem('user'),
+      user: null,
       isLoggedIn: false
     }
     this.setUser = this.setUser.bind(this);
@@ -21,8 +23,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // localStorage.setItem('user', '');
-    // localStorage.setItem('token', '');
+    this.setState({user: ls('user')})
   }
 
   setUser = (user, boolean) => {
@@ -52,10 +53,15 @@ class App extends Component {
         <Route path='/current-weather' component={CurrentWeather} />
         <Route path="/map" component={MapContainer} />
         <Route path="/hangar" component={Hangar} />
+        <Route path="locations" component={Locations} />
         <Route path='/error' component={Error} />
       </Router>
     );
   }
+}
+
+function Locations(props) {
+  return <Alert color="primary">Coming Soon!</Alert>
 }
 
 export default App;

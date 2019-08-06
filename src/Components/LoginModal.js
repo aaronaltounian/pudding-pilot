@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, Alert } from 'reactstrap';
 import LoginForm from './LoginForm'
+const ls = require('local-storage');
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -30,9 +31,9 @@ class LoginModal extends React.Component {
     })
       .then(res => res.json())
       .then(data => {
-        this.props.setUser(data.user);
-        localStorage.setItem('user', data.user)
-        localStorage.setItem('token', data.token);
+        this.props.setUser(data.user, true);
+        ls('user', data.user)
+        ls('token', data.token);
         this.setState({message: data.message}, () => {
           this.handleAlert(this.state.message);
           if(this.state.message === 'success') {

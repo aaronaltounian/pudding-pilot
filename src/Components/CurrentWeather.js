@@ -3,6 +3,7 @@ import { Spinner } from 'reactstrap';
 import ZipcodeSearchBox from './ZipcodeSearchBox';
 import ForecastItem from './ForecastItem';
 import * as moment from 'moment'
+const ls = require('local-storage');
 
 export default class CurrentWeather extends Component {
     constructor(props) {
@@ -19,8 +20,8 @@ export default class CurrentWeather extends Component {
     componentDidMount() {
         this.props.history.push('/current-weather')
         this.setState({isLoading: true});
-        let lat = localStorage.getItem('lat');
-        let lng = localStorage.getItem('lng');
+        let lat = ls('lat');
+        let lng = ls('lng');
         fetch(`/search-location-weather?lat=${lat}&lng=${lng}`)
             .then(res => res.json())
             .then(data => {
