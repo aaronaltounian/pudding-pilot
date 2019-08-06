@@ -53,7 +53,7 @@ class App extends Component {
         <Route path='/current-weather' component={CurrentWeather} />
         <Route path="/map" component={MapContainer} />
         <Route path="/hangar" component={Hangar} />
-        <Route path="locations" component={Locations} />
+        <Route path="/locations" component={Locations} />
         <Route path='/error' component={Error} />
       </Router>
     );

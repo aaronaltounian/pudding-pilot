@@ -76,7 +76,7 @@ export default class TopNav extends React.Component {
           </DropdownItem>
           <DropdownItem divider></DropdownItem>
           <DropdownItem>
-            <NavLink onClick={this.logout()}>Log Out</NavLink>
+            <NavLink onClick={() => {this.logout()}}>Log Out</NavLink>
           </DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>

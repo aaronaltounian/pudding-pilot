@@ -22,8 +22,6 @@ export default class LoginForm extends React.Component {
   //   })
   //     .then(res => res.json())
   //     .then(data => {
-  //       localStorage.setItem('token', data.token);
-  //       console.log(localStorage.getItem('token'));
   //       this.setState({loginMessage: data.message}, () => this.props.toggleModal());
   //     });
   // }
