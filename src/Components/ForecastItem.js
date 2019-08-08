@@ -10,6 +10,7 @@ const ForecastItem = (props) => {
             </CardHeader>
             <CardBody>
                 <h3><Badge color={props.color}>{props.recommendation}</Badge></h3>
+                <h2>Recommended Plane: {props.plane}</h2>
                 <CardTitle>{props.summary}</CardTitle>
                 <CardText>Wind Speed: {props.windSpeed}mph. Gust Speed: {props.windGust} mph.</CardText>
                 <CardText>Winds out of the {props.windDirection}</CardText>

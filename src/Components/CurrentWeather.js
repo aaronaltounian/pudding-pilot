@@ -8,11 +8,13 @@ const ls = require('local-storage');
 export default class CurrentWeather extends Component {
     constructor(props) {
         super(props);
-
+        this.determineFlyingPerPlane = this.determineFlyingPerPlane.bind(this);
         this.state = ({
             isLoading: false,
             currently: {},
             hourly: [],
+            planes: [],
+            goodHours: [],
             color: ''
         })
     }
@@ -20,6 +22,7 @@ export default class CurrentWeather extends Component {
     componentDidMount() {
         this.props.history.push('/current-weather')
         this.setState({isLoading: true});
+        let token = ls('token')
         let lat = ls('lat');
         let lng = ls('lng');
         fetch(`/search-location-weather?lat=${lat}&lng=${lng}`)
@@ -33,6 +36,22 @@ export default class CurrentWeather extends Component {
                 })
                 console.log(this.state.hourly);
             })
+        if(token) {
+            fetch(`/planes`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(res => res.json())
+            .then(planes => {
+                console.log(planes);
+                this.setState({
+                    planes: planes
+                });
+            })
+        }
     }
 
     // basic function to deliver flight recommendation solely based on wind speed:
@@ -51,6 +70,28 @@ export default class CurrentWeather extends Component {
         return recommendation;
     }
 
+    determineFlyingPerPlane() {
+        // get user planes
+        let planes = this.state.planes;
+        //get forecast hours
+        let hours = this.state.hourly;
+        // set array to store hours that match plane parameters
+        let goodHours = [];
+        // loop thru the hourly forecast
+        for(let i = 0; i < hours.length; i++) {
+            // loop through the planes
+            for(let j = 0; j < planes.length; j++) {
+                // check the hourly forecast wind speeds against the plane wind speeds
+                if(hours[i].windSpeed <= planes[j].maxWind && hours[i].windGust <= planes[j].maxGust) {
+                    // add the plane model name to the hourly forecast object
+                    hours[i].plane = planes[j].model;
+                    // push the hourly forecast object to the goodHours array:
+                    goodHours.push(hours[i])
+                }                
+            }
+        }
+        return this.generateForecastCards(goodHours);
+    }
     // generate color for warning badge (gotta be a better way to do this and isGoodFlying but this works for now):
     generateColor(windSpeed, windGust) {
         let color = '';
@@ -74,9 +115,9 @@ export default class CurrentWeather extends Component {
     }
 
     // function to map the hourly forecast state into card components to render on the page:
-    generateForecastCards() {
+    generateForecastCards(forecast) {
         let forecastCards = [];
-        this.state.hourly.map( (forecast, index) => {
+        forecast.map( (forecast, index) => {
             let time = moment.unix(forecast.time).format("ddd, hA");
             forecastCards.push(
                 <ForecastItem 
@@ -89,6 +130,7 @@ export default class CurrentWeather extends Component {
                     windGust={forecast.windGust}
                     windBearing={forecast.windBearing}
                     windDirection={this.convertDegreesToDirection(forecast.windBearing)}
+                    plane={forecast.plane}
                 />
             )
         })
@@ -108,22 +150,21 @@ export default class CurrentWeather extends Component {
             )
         }
         else {
-            return (
-                <div>
-                    <ZipcodeSearchBox value={localStorage.getItem('zipcode')}/>
-                    {/* <ForecastItem 
-                        color={this.generateColor(this.state.currently.windSpeed, this.state.currently.windGust)}
-                        time={'Currently'}
-                        recommendation={this.isGoodFlying(this.state.currently.windSpeed, this.state.currently.windGust)}
-                        summary={this.state.currently.summary}
-                        windSpeed={this.state.currently.windSpeed}
-                        windGust={this.state.currently.windGust}
-                        windBearing={this.state.currently.windBearing}
-                        windDirection={this.convertDegreesToDirection(this.state.currently.windBearing)}
-                    /> */}
-                    {this.generateForecastCards()}
-                </div>
-            );
+            if(this.state.planes.length === 0) {
+                return (
+                    <div>
+                        {/* <ZipcodeSearchBox value={localStorage.getItem('zipcode')}/> */}
+                        {this.generateForecastCards(this.state.hourly)}
+                    </div>
+                );
+            } 
+            else {
+                return(
+                    <div>
+                        {this.determineFlyingPerPlane()}
+                    </div>
+                )
+            }
         }
     }
 }
